@@ -47,8 +47,9 @@
     let checked = 0;
     while (months.length < limit && checked < available.length) {
       const batch = available.slice(checked, checked + Math.min(batchSize, limit - months.length));
-      checked += batch.length;
+      onProgress(checked, available.length, months.length, limit, true, batch.length);
       const csv = await query(batch);
+      checked += batch.length;
       if (csv) {
         const header = cleanCsv(csv, firstColumn).text.split('\n', 1)[0].split(';').slice(1, -1).map(value => value.slice(1, -1));
         if (header.some(value => !batch.some(option => option.text.trim() === value))) {
@@ -57,7 +58,7 @@
         months.push(...batch.filter(option => header.includes(option.text.trim())));
         parts.push(csv);
       }
-      onProgress(checked, available.length, months.length, limit);
+      onProgress(checked, available.length, months.length, limit, false, 0);
     }
     return { months, parts };
   }

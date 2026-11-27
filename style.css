@@ -114,10 +114,15 @@ body.progress { display: flex; flex-direction: column; height: 100vh; min-height
 .stage-copy { min-width: 0; }
 .stage-copy strong { display: block; font-size: 13px; line-height: 1.2; }
 .stage-copy small { display: block; margin-top: 3px; color: #627387; font-size: 11px; }
+.stage-query-meter { display: none; position: relative; height: 4px; margin-top: 7px; border-radius: 4px; background: #d8e4ee; overflow: hidden; }
+.stage[data-state="active"] .stage-query-meter { display: block; }
+.stage-query-meter span { display: block; height: 100%; background: var(--navy); transition: width .2s; }
+.stage.querying .stage-query-meter::after { position: absolute; inset: 0 auto 0 -35%; width: 35%; background: linear-gradient(90deg, transparent, #7ca9d0, transparent); animation: query-sweep 1.5s linear infinite; content: ""; }
 .stage-badge { padding: 4px 7px; border-radius: 999px; background: #eef2f6; color: #607286; font-size: 10px; font-weight: 700; white-space: nowrap; }
 .stage[data-state="active"] { border-color: #9eb8d0; background: #f0f6fb; }
 .stage[data-state="active"] .stage-number { background: var(--navy); color: white; }
 .stage[data-state="active"] .stage-badge { background: #dcecf9; color: var(--navy); }
+.stage[data-state="active"] .stage-badge::before { display: inline-block; width: 8px; height: 8px; margin-right: 5px; border: 1.5px solid currentColor; border-right-color: transparent; border-radius: 50%; vertical-align: -1px; animation: spin 1s linear infinite; content: ""; }
 .stage[data-state="done"] .stage-number { background: #dff1e8; color: #146b45; }
 .stage[data-state="done"] .stage-badge { background: #e5f4ec; color: #146b45; }
 .stage[data-state="error"] { border-color: #efb9b3; background: #fff8f7; }
@@ -141,4 +146,6 @@ body.progress { display: flex; flex-direction: column; height: 100vh; min-height
 a { color: var(--navy); font-weight: 700; }
 
 @media (max-height: 650px) { .progress-content { gap: 9px; padding-top: 12px; } .progress h1 { font-size: 18px; } .stage { padding: 7px; } }
-@media (prefers-reduced-motion: reduce) { #bar, .chevron { transition: none; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes query-sweep { to { left: 100%; } }
+@media (prefers-reduced-motion: reduce) { #bar, .chevron, .stage-query-meter span { transition: none; } .stage.querying .stage-query-meter::after, .stage[data-state="active"] .stage-badge::before { animation: none; } }

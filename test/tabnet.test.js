@@ -89,3 +89,19 @@ test('consulta doze meses do SI-PNI de uma vez e substitui mês sem dados', asyn
   assert.deepEqual(batches, [12, 1]);
   assert.deepEqual(months.map(option => option.value), available.slice(1).map(option => option.value));
 });
+
+test('avisa quando um lote começa antes de esperar a resposta do TabNet', async () => {
+  let release;
+  const pending = new Promise(resolve => { release = resolve; });
+  const updates = [];
+  const extraction = tabnet.collectRecentMonths([
+    { value: 'parj2608.dbf', text: 'Ago/2026' }
+  ], 1, async () => pending, {
+    onProgress: (checked, _available, found, target, querying, batchSize) =>
+      updates.push({ checked, found, target, querying, batchSize })
+  });
+  assert.deepEqual(updates, [{ checked: 0, found: 0, target: 1, querying: true, batchSize: 1 }]);
+  release('"Estabel-CNES-RJ";"Ago/2026";"Total"\n"1234567 SMS CF";8;8\n"Total";8;8\n');
+  await extraction;
+  assert.deepEqual(updates.at(-1), { checked: 1, found: 1, target: 1, querying: false, batchSize: 0 });
+});

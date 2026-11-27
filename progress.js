@@ -37,6 +37,7 @@ const stages = Object.fromEntries(['sisab', 'tabnet', 'sipni'].map(name => [name
   number: document.querySelector(`#stage-${name} .stage-number`),
   badge: document.getElementById(`${name}-state`),
   progress: document.getElementById(`${name}-progress`),
+  queryMeter: document.getElementById(`${name}-query-meter`),
   expected: { sisab: sisabExpected, tabnet: tabnetExpected, sipni: sipniExpected }[name],
   received: 0
 }]));
@@ -44,6 +45,7 @@ const stages = Object.fromEntries(['sisab', 'tabnet', 'sipni'].map(name => [name
 function setStageState(name, state) {
   const stage = stages[name];
   stage.element.dataset.state = state;
+  if (state !== 'active') stage.element.classList.remove('querying');
   stage.badge.textContent = { pending: 'Pendente', active: 'Em curso', done: 'Concluído', error: 'Interrompido' }[state];
   if (state === 'active') activeModule = name;
   if (state === 'done' && activeModule === name) activeModule = undefined;
@@ -130,6 +132,19 @@ function appendFile(file, module) {
   const stage = stages[module];
   stage.received++;
   stage.progress.textContent = `${stage.received} de ${stage.expected} CSVs`;
+}
+
+function updateMonthProgress(module, label, checked, found, target, querying, batchSize = 0) {
+  const stage = stages[module];
+  stage.element.classList.toggle('querying', querying);
+  stage.queryMeter.firstElementChild.style.width = `${Math.round(found / target * 100)}%`;
+  stage.queryMeter.setAttribute('aria-valuenow', String(found));
+  stage.queryMeter.setAttribute('aria-valuemax', String(target));
+  stage.queryMeter.setAttribute('aria-label', `${label}: competências encontradas`);
+  stage.progress.textContent = `${stage.received} de ${stage.expected} CSVs · ${found}/${target} competências`;
+  if (!querying) detail.textContent = `${label}: ${found} de ${target} competências encontradas (${checked} verificadas).`;
+  else if (!batchSize) detail.textContent = `${label}: abrindo o formulário do TabNet…`;
+  else detail.textContent = `${label}: consultando ${checked ? 'mais ' : ''}${batchSize} ${batchSize === 1 ? 'competência' : 'competências'}… ${found} de ${target} encontradas (${checked} verificadas).`;
 }
 
 function maybeFinish() {
@@ -238,9 +253,11 @@ async function runPublicStages() {
       if (finished) return;
       status.textContent = 'Consultando o SIA no TabNet municipal…';
       const report = name === 'tabnet_aps' ? 'APS' : 'especializados';
-      const file = await Tabnet.extract(name.slice('tabnet_'.length), competencyCount, (checked, _available, found, target) => {
-        detail.textContent = `Procedimentos ${report}: ${found} de ${target} competências encontradas (${checked} verificadas).`;
-      });
+      const label = `Procedimentos ${report}`;
+      updateMonthProgress('tabnet', label, 0, 0, competencyCount, true);
+      const file = await Tabnet.extract(name.slice('tabnet_'.length), competencyCount, (checked, _available, found, target, querying, batchSize) =>
+        updateMonthProgress('tabnet', label, checked, found, target, querying, batchSize));
+      if (finished) return;
       appendFile(file, 'tabnet');
     }
     completeStage('tabnet');
@@ -249,10 +266,10 @@ async function runPublicStages() {
     if (finished) return;
     setStageState('sipni', 'active');
     status.textContent = 'Consultando o SI-PNI no TabNet municipal…';
-    detail.textContent = 'Buscando os registros da vacinação contra COVID-19.';
-    const file = await Sipni.extract(competencyCount, (checked, _available, found, target) => {
-      detail.textContent = `Vacinação contra COVID-19: ${found} de ${target} competências encontradas (${checked} verificadas).`;
-    });
+    const label = 'Vacinação contra COVID-19';
+    updateMonthProgress('sipni', label, 0, 0, competencyCount, true);
+    const file = await Sipni.extract(competencyCount, (checked, _available, found, target, querying, batchSize) =>
+      updateMonthProgress('sipni', label, checked, found, target, querying, batchSize));
     if (finished) return;
     appendFile(file, 'sipni');
     completeStage('sipni');
