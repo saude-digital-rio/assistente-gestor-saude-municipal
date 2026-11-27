@@ -1,0 +1,7 @@
+{
+  "name": "assistente-gestor-saude-municipal",
+  "private": true,
+  "scripts": {
+    "test": "node --test"
+  }
+}

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Extração · Assistente de Gestor de Saúde Municipal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="progress">
+  <main>
+    <header class="brand-header"><span class="brand-mark"><img src="icons/blue32.png" alt="" width="36" height="36"></span><div><strong>Assistente de Gestor de Saúde Municipal</strong><small>Extração de relatórios</small></div></header>
+    <div class="progress-content">
+      <div class="progress-intro">
+        <span class="eyebrow">EXPORTAÇÃO EM ANDAMENTO</span>
+        <h1 id="status">Preparando a extração…</h1>
+        <p id="detail" class="hint" role="status">Mantenha este painel aberto até o ZIP ser salvo.</p>
+      </div>
+
+      <section class="progress-overview" aria-label="Progresso geral">
+        <div class="progress-overview-head"><strong>Progresso geral</strong><span id="count">Preparando…</span></div>
+        <div class="meter" role="progressbar" aria-label="Arquivos extraídos" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="bar"></div></div>
+      </section>
+
+      <section class="stages" aria-label="Etapas da extração">
+        <div class="stage" id="stage-sisab" data-state="pending" hidden>
+          <span class="stage-number" aria-hidden="true">1</span>
+          <div class="stage-copy"><strong>SISAB</strong><small id="sisab-progress">Aguardando</small></div>
+          <span class="stage-badge" id="sisab-state">Pendente</span>
+        </div>
+        <div class="stage" id="stage-tabnet" data-state="pending" hidden>
+          <span class="stage-number" aria-hidden="true">2</span>
+          <div class="stage-copy"><strong>SIA @ TabNet Municipal</strong><small id="tabnet-progress">Aguardando</small></div>
+          <span class="stage-badge" id="tabnet-state">Pendente</span>
+        </div>
+        <div class="stage" id="stage-sipni" data-state="pending" hidden>
+          <span class="stage-number" aria-hidden="true">3</span>
+          <div class="stage-copy"><strong>SI-PNI @ TabNet Municipal</strong><small id="sipni-progress">Aguardando</small></div>
+          <span class="stage-badge" id="sipni-state">Pendente</span>
+        </div>
+      </section>
+
+      <section class="files-panel" aria-labelledby="files-heading">
+        <div class="files-head"><div><strong id="files-heading">Arquivos extraídos</strong><small>CSVs incluídos no ZIP</small></div><span id="files-count">0 arquivos</span></div>
+        <div class="files-scroll">
+          <p id="files-empty">Os arquivos aparecerão aqui conforme cada etapa avançar.</p>
+          <ul id="files" aria-label="Arquivos CSV recebidos"></ul>
+        </div>
+      </section>
+      <a id="back" class="back-link" href="popup.html" hidden>← Nova extração</a>
+    </div>
+  </main>
+  <footer class="org-footer"><img src="icons/orgao_logo.webp" alt="Prefeitura do Rio de Janeiro · Saúde" width="200" height="48"></footer>
+  <script src="core.js"></script>
+  <script src="tabnet.js"></script>
+  <script src="sipni.js"></script>
+  <script src="progress.js"></script>
+</body>
+</html>

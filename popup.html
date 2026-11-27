@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Assistente de Gestor de Saúde Municipal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="popup">
+  <header class="brand-header"><span class="brand-mark"><img src="icons/blue32.png" alt="" width="36" height="36"></span><div><strong>Assistente de Gestor de Saúde Municipal</strong><small>Relatórios para a gestão municipal</small></div></header>
+  <main class="popup-content">
+    <div class="period-control">
+      <label for="competencies">Período da extração</label>
+      <select id="competencies">
+        <option value="1">Última competência disponível</option>
+        <option value="6" selected>Últimas 6 competências disponíveis</option>
+        <option value="12">Últimas 12 competências disponíveis</option>
+      </select>
+    </div>
+
+    <section class="module" id="sisab-module" aria-labelledby="sisab-heading">
+      <div class="module-top">
+        <button type="button" class="module-heading" id="sisab-heading" aria-expanded="false" aria-controls="sisab-body"><span>SISAB<small>Acesso pelo e-Gestor</small></span><span class="chevron" aria-hidden="true"></span></button>
+        <label class="module-all" title="Selecionar todos os relatórios do SISAB"><input type="checkbox" id="sisab-all" checked><span>Todos</span></label>
+        <button type="button" class="help-button" aria-label="Como usar o SISAB" aria-expanded="false" aria-controls="sisab-help">?</button>
+      </div>
+      <div class="module-help" id="sisab-help" hidden>Entre no e-Gestor e mantenha aberta a página <a href="https://egestorab.saude.gov.br/paginas/acessoRestrito/perfilAcesso.xhtml" target="_blank" rel="noopener">Perfil de Acesso</a>. Com a sessão ativa, escolha os relatórios e clique em Extrair ZIP.</div>
+      <div class="module-body" id="sisab-body" hidden>
+        <fieldset id="sisab-fields">
+          <label class="report-option"><input type="checkbox" value="atendimentos" checked><span>Atendimentos<small>Enfermeiro, dentista e médico</small></span></label>
+          <label class="report-option"><input type="checkbox" value="procedimentos" checked><span>Procedimentos</span></label>
+          <label class="report-option"><input type="checkbox" value="visitas" checked><span>Visitas domiciliares<small>Visitas realizadas</small></span></label>
+          <label class="report-option"><input type="checkbox" value="coletiva" checked><span>Atividade coletiva<small>Quantidade de atividades</small></span></label>
+        </fieldset>
+      </div>
+    </section>
+
+    <section class="module" id="tabnet-module" aria-labelledby="tabnet-heading">
+      <div class="module-top">
+        <button type="button" class="module-heading" id="tabnet-heading" aria-expanded="true" aria-controls="tabnet-body"><span>SIA @ TabNet Municipal<small>Dados públicos</small></span><span class="chevron" aria-hidden="true"></span></button>
+        <label class="module-all" title="Selecionar todos os relatórios do TabNet"><input type="checkbox" id="tabnet-all" checked><span>Todos</span></label>
+        <button type="button" class="help-button" aria-label="Como usar o TabNet Municipal" aria-expanded="false" aria-controls="tabnet-help">?</button>
+      </div>
+      <div class="module-help" id="tabnet-help" hidden>Disponível em qualquer página, sem login. Extrai procedimentos por estabelecimento e mês de cobrança das competências mais recentes com dados no <a href="https://tabnet.rio.rj.gov.br/" target="_blank" rel="noopener">TabNet Municipal</a>. A consulta pode levar alguns minutos.</div>
+      <div class="module-body" id="tabnet-body">
+        <fieldset id="tabnet-fields">
+          <label class="report-option"><input type="checkbox" value="tabnet_aps" checked><span>Procedimentos na APS<small>CF, CMS e CSE</small></span></label>
+          <label class="report-option"><input type="checkbox" value="tabnet_especializada" checked><span>Procedimentos especializados<small>Policlínicas, Super Centro ZO, CECCO, DEAMB e CAPS</small></span></label>
+        </fieldset>
+      </div>
+    </section>
+
+    <section class="module" id="sipni-module" aria-labelledby="sipni-heading">
+      <div class="module-top">
+        <button type="button" class="module-heading" id="sipni-heading" aria-expanded="false" aria-controls="sipni-body"><span>SI-PNI @ TabNet Municipal<small>Dados públicos · COVID-19</small></span><span class="chevron" aria-hidden="true"></span></button>
+        <label class="module-all" title="Selecionar todos os relatórios do SI-PNI"><input type="checkbox" id="sipni-all" checked><span>Todos</span></label>
+        <button type="button" class="help-button" aria-label="Como usar o SI-PNI" aria-expanded="false" aria-controls="sipni-help">?</button>
+      </div>
+      <div class="module-help" id="sipni-help" hidden>Disponível em qualquer página, sem login. Consulta a <a href="https://tabnet.rio.rj.gov.br/cgi-bin/dh?tabpni/definicoes/tabpni.def" target="_blank" rel="noopener">campanha de vacinação contra COVID-19</a> no SI-PNI, por estabelecimento de saúde e mês da vacinação. O CSV contém o total de registros consultados.</div>
+      <div class="module-body" id="sipni-body" hidden>
+        <fieldset id="sipni-fields">
+          <label class="report-option"><input type="checkbox" value="sipni_covid" checked><span>Vacinação contra COVID-19<small>Estabelecimento de saúde × mês da vacinação</small></span></label>
+        </fieldset>
+      </div>
+    </section>
+
+    <p id="location" class="hint" role="status">Verificando página…</p>
+    <button id="extract" class="extract-button" disabled>Extrair ZIP</button>
+  </main>
+  <footer class="org-footer"><img src="icons/orgao_logo.webp" alt="Prefeitura do Rio de Janeiro · Saúde" width="200" height="48"></footer>
+  <script src="popup.js"></script>
+</body>
+</html>
