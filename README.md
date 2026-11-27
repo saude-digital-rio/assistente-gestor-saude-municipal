@@ -1,28 +1,49 @@
 # Assistente de Gestor de Saúde Municipal
 
-Extensão Chrome (Manifest V3) para reunir em um ZIP relatórios do SISAB por Equipe/INE, do SIA e do SI-PNI no TabNet municipal. O SISAB usa a sessão já autenticada do e-Gestor; a extensão não recebe senha nem token do gov.br. O TabNet é público e pode ser consultado de qualquer página.
+Extensão para Google Chrome que extrai relatórios de produção do **SISAB**, **SIA** e **SI-PNI**, organiza os dados em CSV e salva tudo em **um único ZIP**. A extração acontece no painel lateral do navegador.
 
-## Instalação
+O SISAB usa a sessão que o usuário já abriu no e-Gestor; a extensão não pede senha nem faz login no gov.br. Os dados do TabNet Municipal são públicos e podem ser baixados a partir de qualquer página. A extensão não usa servidor próprio: consulta as fontes oficiais e salva o resultado no computador do usuário.
 
-1. Extraia o ZIP da versão desejada para uma pasta permanente no computador.
-2. Abra `chrome://extensions`, ative **Modo do desenvolvedor** e clique **Carregar sem compactação**. Selecione a pasta extraída que contém `manifest.json`.
-3. O ícone azul aparece em qualquer página. Clique nele para abrir o painel lateral do Chrome. Escolha a última competência disponível ou as últimas 6 ou 12.
-4. Abra as sanfonas **SISAB**, **SIA @ TabNet Municipal** e **SI-PNI @ TabNet Municipal**, ative os relatórios desejados e clique **Extrair ZIP**. O toggle **Todos** de cada módulo seleciona ou desmarca todos os seus relatórios; o botão **?** explica o acesso e o uso.
-5. Para incluir relatórios do SISAB, entre no e-Gestor e abra `https://egestorab.saude.gov.br/paginas/acessoRestrito/perfilAcesso.xhtml`. Os toggles do SISAB só ficam disponíveis nessa página.
-6. Mantenha o painel lateral aberto e, se selecionou SISAB, também a aba do e-Gestor/SISAB. O progresso mostra uma etapa por módulo e uma lista rolável dos CSVs recebidos. Nas consultas do TabNet, o cartão mostra as competências encontradas e sinaliza quando um novo lote está em andamento. As etapas seguem a ordem SISAB, SIA e SI-PNI quando selecionadas. O ZIP será salvo em Downloads.
+## Como instalar
 
-O SISAB gera um CSV por competência e tipo de relatório. **Atendimentos** gera três CSVs por competência: Atendimento Individual para enfermeiro e médico, Atendimento Odontológico para dentista. Com seus quatro toggles ligados e o período padrão de 6 competências, são 36 CSVs. A extensão seleciona as competências mais recentes disponíveis nos relatórios escolhidos; quando produção e atividade coletiva são selecionadas juntas, usa competências comuns aos dois módulos. Os arquivos incluem as equipes 70, 71, 72, 73, 74, 76 e sem equipe.
+1. Baixe o arquivo [**assistente-gestor-saude-municipal-1.0.0.zip**](https://github.com/saude-digital-rio/e-gestor-helper/releases/download/v1.0.0/assistente-gestor-saude-municipal-1.0.0.zip).
+2. Extraia o ZIP em uma pasta que permanecerá no computador. Dentro dela deve estar o arquivo `manifest.json`.
+3. No Chrome para computador, abra `chrome://extensions` e ative **Modo do desenvolvedor**.
+4. Clique em **Carregar sem compactação** e selecione a pasta extraída.
+5. Se quiser, fixe o ícone da extensão no menu de extensões do Chrome. Clique nele para abrir o painel lateral.
 
-O TabNet gera mais dois CSVs, um de **procedimentos na APS** (CF, CMS e CSE; complexidades média, alta e não se aplica) e outro de **procedimentos especializados** (policlínicas, Super Centro ZO, CECCO/CECO, DEAMB e CAPS; todas as complexidades). Cada CSV tem estabelecimentos nas linhas e meses de cobrança nas colunas. A extensão busca 1, 6 ou 12 competências mais recentes com dados, consultando desde janeiro de 2025 em blocos de até três para respeitar o tempo limite do TabNet. O formulário é codificado em ISO-8859-1. A lista de estabelecimentos é obtida do próprio formulário a cada extração; categorias ausentes nele não aparecem no resultado.
+O ZIP **não instala com duplo clique**. Em computadores administrados por uma organização, o Modo do desenvolvedor pode estar bloqueado. Para atualizar uma instalação manual, substitua os arquivos na mesma pasta e clique em **Recarregar** em `chrome://extensions`.
 
-O **SI-PNI** gera um CSV da campanha de vacinação contra COVID-19, com estabelecimento de saúde nas linhas, mês da vacinação nas colunas e total de registros consultados como conteúdo. A extensão busca as 1, 6 ou 12 competências mais recentes com dados no formulário público do SI-PNI. Normalmente consulta todos os meses selecionados em uma única requisição; se algum mês não tiver dados, consulta os anteriores até completar o período.
+## Como usar
 
-Todos os CSVs são salvos em UTF-8 com BOM. O ZIP usa armazenamento sem compressão para evitar dependências externas.
+1. Para extrair **SISAB**, entre no [e-Gestor](https://egestorab.saude.gov.br/paginas/acessoRestrito/perfilAcesso.xhtml) e mantenha aberta a página **Perfil de Acesso**. Os controles desse módulo só ficam disponíveis nessa página. **SIA** e **SI-PNI** funcionam em qualquer página, sem login.
+2. No painel lateral, escolha a **última competência disponível** ou as **últimas 6 ou 12**. Cada fonte procura suas próprias competências mais recentes com dados.
+3. Abra os módulos desejados e marque os relatórios. **Todos** seleciona ou desmarca os relatórios do módulo; o botão **?** explica cada fonte.
+4. Clique em **Extrair ZIP**. Mantenha o painel aberto enquanto as etapas avançam. Se incluiu o SISAB, mantenha também a aba do e-Gestor/SISAB aberta.
+5. Ao terminar, encontre o ZIP na pasta **Downloads** do Chrome. Ele contém os CSVs selecionados, em UTF-8 com BOM.
 
-O filtro de visitas é **Visita realizada**; o de atividade coletiva é **Quantidade de Atividade Coletiva**. A extensão não tenta fazer login nem contorna o gov.br. Se a sessão expirar, entre novamente no e-Gestor e reinicie a extração.
+| Módulo | Relatórios disponíveis |
+| --- | --- |
+| **SISAB** | Atendimentos individuais (enfermeiro, dentista e médico), procedimentos, visitas domiciliares e atividade coletiva, por equipe/INE e competência. |
+| **SIA @ TabNet Municipal** | Procedimentos na APS e procedimentos especializados, por estabelecimento e mês de cobrança. |
+| **SI-PNI @ TabNet Municipal** | Campanha de vacinação contra COVID-19, por estabelecimento de saúde e mês da vacinação. |
+
+O SISAB respeita o acesso e as permissões do usuário no e-Gestor. Se a sessão expirar, entre novamente e reinicie a extração. A extensão não contorna o gov.br.
+
+## Telas
+
+Capturas da interface com dados ilustrativos, sem relatórios reais.
+
+| SISAB no e-Gestor | SIA no TabNet Municipal |
+| --- | --- |
+| <img src="docs/images/sisab.png" alt="Painel lateral com os relatórios do SISAB disponíveis na página Perfil de Acesso" width="380"> | <img src="docs/images/painel.png" alt="Painel lateral com os módulos SISAB, SIA e SI-PNI e seleção de relatórios do SIA" width="380"> |
+
+| SI-PNI no TabNet Municipal | Acompanhamento da extração |
+| --- | --- |
+| <img src="docs/images/si-pni.png" alt="Módulo SI-PNI aberto com a opção de vacinação contra COVID-19" width="380"> | <img src="docs/images/progresso.png" alt="Tela de progresso com etapas do SIA e SI-PNI, barra de competências e lista de arquivos extraídos" width="380"> |
 
 ## Desenvolvimento
 
-Não há etapa de build nem dependências de produção. Rode `npm test` para validar seleção de competências, filtros do TabNet, limpeza dos CSVs e integridade do ZIP. Rode `python3 scripts/package.py` para criar o ZIP de distribuição em `dist/`, com `manifest.json` na raiz. Recarregue a extensão em `chrome://extensions` após alterações. A permissão para `tabnet.rio.rj.gov.br` pode exigir aceite no Chrome.
+O projeto usa Manifest V3, sem build nem dependências de produção. Rode `npm test` para verificar a seleção de competências, o tratamento dos CSVs e o ZIP. Rode `python3 scripts/package.py` para gerar um pacote de distribuição em `dist/`, com `manifest.json` na raiz.
 
-O Chrome gera o ID da extensão como uma sequência própria. O nome acima aparece no menu de extensões; o ID técnico não pode ser trocado por um nome legível. Mantenha esta pasta no mesmo caminho para preservar o ID da instalação local.
+O Chrome gera o ID técnico da instalação local. Para preservá-lo nas atualizações manuais, mantenha a pasta extraída no mesmo caminho.
