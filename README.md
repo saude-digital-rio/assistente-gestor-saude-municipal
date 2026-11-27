@@ -4,8 +4,8 @@ Extensão Chrome (Manifest V3) para reunir em um ZIP relatórios do SISAB por Eq
 
 ## Instalação
 
-1. Abra `chrome://extensions`, ative **Modo do desenvolvedor** e clique **Carregar sem compactação**.
-2. Selecione a pasta deste repositório.
+1. Extraia o ZIP da versão desejada para uma pasta permanente no computador.
+2. Abra `chrome://extensions`, ative **Modo do desenvolvedor** e clique **Carregar sem compactação**. Selecione a pasta extraída que contém `manifest.json`.
 3. O ícone azul aparece em qualquer página. Clique nele para abrir o painel lateral do Chrome. Escolha a última competência disponível ou as últimas 6 ou 12.
 4. Abra as sanfonas **SISAB**, **SIA @ TabNet Municipal** e **SI-PNI @ TabNet Municipal**, ative os relatórios desejados e clique **Extrair ZIP**. O toggle **Todos** de cada módulo seleciona ou desmarca todos os seus relatórios; o botão **?** explica o acesso e o uso.
 5. Para incluir relatórios do SISAB, entre no e-Gestor e abra `https://egestorab.saude.gov.br/paginas/acessoRestrito/perfilAcesso.xhtml`. Os toggles do SISAB só ficam disponíveis nessa página.
@@ -23,6 +23,6 @@ O filtro de visitas é **Visita realizada**; o de atividade coletiva é **Quanti
 
 ## Desenvolvimento
 
-Não há etapa de build nem dependências de produção. Rode `npm test` para validar seleção de competências, filtros do TabNet, limpeza dos CSVs e integridade do ZIP. Recarregue a extensão em `chrome://extensions` após alterações. A nova permissão para `tabnet.rio.rj.gov.br` pode exigir aceite no Chrome.
+Não há etapa de build nem dependências de produção. Rode `npm test` para validar seleção de competências, filtros do TabNet, limpeza dos CSVs e integridade do ZIP. Rode `python3 scripts/package.py` para criar o ZIP de distribuição em `dist/`, com `manifest.json` na raiz. Recarregue a extensão em `chrome://extensions` após alterações. A permissão para `tabnet.rio.rj.gov.br` pode exigir aceite no Chrome.
 
 O Chrome gera o ID da extensão como uma sequência própria. O nome acima aparece no menu de extensões; o ID técnico não pode ser trocado por um nome legível. Mantenha esta pasta no mesmo caminho para preservar o ID da instalação local.

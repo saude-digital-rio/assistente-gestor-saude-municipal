@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "minimum_chrome_version": "114",
   "name": "Assistente de Gestor de Saúde Municipal",
-  "version": "0.7.1",
+  "version": "1.0.0",
   "description": "Exporta relatórios do SISAB, SIA e SI-PNI para um ZIP.",
   "homepage_url": "https://github.com/saude-digital-rio/e-gestor-helper",
   "permissions": ["tabs", "scripting", "downloads", "sidePanel"],

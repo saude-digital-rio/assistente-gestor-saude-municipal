@@ -1,0 +1,17 @@
+ASSISTENTE DE GESTOR DE SAUDE MUNICIPAL - INSTALACAO NO CHROME
+
+1. Extraia este arquivo ZIP para uma pasta permanente no computador.
+2. No Chrome, abra chrome://extensions
+3. Ative "Modo do desenvolvedor" no canto superior direito.
+4. Clique "Carregar sem compactacao" e escolha a pasta extraida que contem manifest.json.
+5. Fixe a extensao pelo menu de pecas do Chrome. Clique no icone para abrir o painel lateral.
+
+O modulo SISAB exige que voce esteja logado no e-Gestor e na pagina Perfil de Acesso.
+Os modulos SIA e SI-PNI usam dados publicos do TabNet e funcionam em qualquer pagina.
+
+Guarde a pasta extraida no mesmo lugar. Para atualizar, substitua os arquivos nela
+e clique no botao de recarregar da extensao em chrome://extensions.
+
+Este ZIP e para instalacao manual. Ele nao instala com duplo clique e nao atualiza
+automaticamente. Em computadores gerenciados, a politica da organizacao pode
+bloquear o Modo do desenvolvedor.
